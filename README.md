@@ -2,9 +2,9 @@
 
 Auto generating of windows shortcuts and `desktop.ini` files
 
-# Info
+### Info
 
-## How to reference IWshRuntimeLibrary 
+#### How to reference IWshRuntimeLibrary 
 
 - right-click on the project name within the Solution Explorer
 - select "Add Reference"
