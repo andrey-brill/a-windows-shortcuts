@@ -43,6 +43,7 @@ namespace WindowsShortcuts
             Console.WriteLine(desktop);
 
             var folders = AFolder.FromPairs(
+                @"~\", "a-user",
                 @"~\Downloads", "a-downloads",
                 @"~\Documents", "a-documents",
                 @"~\Projects", "a-projects-git",
