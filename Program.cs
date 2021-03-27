@@ -1,4 +1,4 @@
-﻿using IWshRuntimeLibrary;
+﻿
 using System;
 using System.IO;
 
@@ -65,24 +65,39 @@ namespace WindowsShortcuts
                     path = Path.Combine(user, path.Replace(@"~\", ""));
                 }
 
+                string desktopIni = Path.Combine(path, "desktop.ini");
+
+                if (File.Exists(desktopIni))
+                {
+                    File.Delete(desktopIni);
+                }
+
                 string iconLocation = Path.Combine(icons, folder.Icon + ".ico") + ",0";
+
                 try
                 {
-                    System.IO.File.WriteAllLines(Path.Combine(path, "desktop.ini"), new String[] { "[.ShellClassInfo]", iconLocation });
+                    File.WriteAllLines(desktopIni, new String[] {
+                        "[.ShellClassInfo]",
+                        "IconResource=" + iconLocation,
+                        "[ViewState]",
+                        "Mode=",
+                        "Vid=",
+                        "FolderType=Generic"
+                    });
                 } catch
                 {
                     Console.WriteLine("Cant create: desktop.ini");
                 }
 
-                WshShellClass wshShell = new WshShellClass();
+                IWshRuntimeLibrary.WshShellClass wshShell = new IWshRuntimeLibrary.WshShellClass();
 
                 var link = Path.Combine(desktop, folder.Icon + ".lnk");
-                if (System.IO.File.Exists(link))
+                if (File.Exists(link))
                 {
-                    System.IO.File.Delete(link);
+                    File.Delete(link);
                 }
 
-                IWshShortcut shortcut = (IWshShortcut)wshShell.CreateShortcut(link);
+                IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)wshShell.CreateShortcut(link);
                 shortcut.TargetPath = @"C:\Windows\explorer.exe";
                 shortcut.Arguments = path;
                 shortcut.IconLocation = iconLocation;
